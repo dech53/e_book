@@ -1,6 +1,12 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:collection';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
+import 'package:e_book/http/dio_instance.dart';
+import 'package:e_book/pages/components/my_book_tile.dart';
+import 'package:e_book/pages/components/my_search_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -125,38 +131,8 @@ class _HomePageState extends State<HomePage> {
               height: 15,
             ),
             //搜索
-            Row(
-              children: [
-                //搜索框
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 15),
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      "搜索..",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          fontSize: 15),
-                    ),
-                  ),
-                ),
-                //书架图标
-                Container(
-                    padding: EdgeInsets.only(left: 10),
-                    child: IconButton(
-                      padding: EdgeInsets.only(left: 10),
-                      icon: Icon(
-                        LineIcons.stream,
-                        size: 25,
-                      ),
-                      onPressed: () {},
-                    ))
-              ],
+            MySearchTile(
+              bookshelfTap: () {},
             ),
             const SizedBox(
               height: 30,
@@ -313,119 +289,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            //推荐
+            //特别推荐
             const SizedBox(
               height: 30,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "特别推荐",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                //书籍信息
-                const SizedBox(
-                  height: 10,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      books.length,
-                      (index) {
-                        return Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: 120,
-                                    height: 160,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: DecorationImage(
-                                        image: CachedNetworkImageProvider(
-                                          books[index]['cover'],
-                                          headers: const {
-                                            'User-Agent':
-                                                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
-                                          },
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  //价格
-                                  Positioned(
-                                    bottom: 25,
-                                    child: Container(
-                                      width: 65,
-                                      height: 25,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(12),
-                                          bottomRight: Radius.circular(12),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "￥" +
-                                              books[index]['price'].toString(),
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              //标题
-                              Container(
-                                padding: EdgeInsets.only(top: 10),
-                                width: 120,
-                                child: Text(
-                                  maxLines: 1,
-                                  books[index]['title'],
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(top: 10),
-                                width: 120,
-                                child: Text(
-                                  maxLines: 1,
-                                  books[index]['authorName'],
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .inversePrimary,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                )
-              ],
-            ),
+            MyBookTile(books: books, height: 160, width: 120),
           ],
         ),
       ),

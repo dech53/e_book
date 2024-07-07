@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_book/model/book.dart';
 import 'package:flutter/material.dart';
 
 class MyBookTile extends StatelessWidget {
-  final List<Map<String, dynamic>> books;
+  final List<Book> books;
   final double? height;
   final double? width;
   const MyBookTile(
@@ -44,7 +45,7 @@ class MyBookTile extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                               image: DecorationImage(
                                 image: CachedNetworkImageProvider(
-                                  books[index]['cover'],
+                                  books[index].cover??"",
                                   headers: const {
                                     'User-Agent':
                                         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
@@ -69,7 +70,7 @@ class MyBookTile extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  "￥" + books[index]['price'].toString(),
+                                  "￥12.0",
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.onPrimary,
@@ -88,7 +89,7 @@ class MyBookTile extends StatelessWidget {
                         width: width,
                         child: Text(
                           maxLines: 1,
-                          books[index]['title'],
+                          books[index].title??"",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500),
                         ),
@@ -98,7 +99,7 @@ class MyBookTile extends StatelessWidget {
                         width: width,
                         child: Text(
                           maxLines: 1,
-                          books[index]['authorName'],
+                          books[index].authorName??"",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

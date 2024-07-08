@@ -1,16 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_book/model/book.dart';
+import 'package:e_book/pages/components/book_tile/my_book_tile_item.dart';
+import 'package:e_book/pages/components/book_tile/my_book_tile_item_skeleton.dart';
 import 'package:flutter/material.dart';
 
 class MyBookTile extends StatelessWidget {
-  final List<Book> books;
+  final List<Book>? books;
   final double? height;
   final double? width;
+  final bool? showPrice;
+  final String title;
+  final bool? showRate;
   const MyBookTile(
       {super.key,
-      required this.books,
-      required this.height,
-      required this.width});
+       this.books,
+       this.height,
+       this.width,
+      this.showPrice = false,required this.title,  this.showRate});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +25,9 @@ class MyBookTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "特别推荐",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          title,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600,
+          ),
         ),
         //书籍信息
         const SizedBox(
@@ -30,91 +37,50 @@ class MyBookTile extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(
-              books.length,
+              books?.length??5,
               (index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 15),
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: width,
-                            height: height,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                  books[index].cover??"",
-                                  headers: const {
-                                    'User-Agent':
-                                        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
-                                  },
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          //价格
-                          Positioned(
-                            bottom: height == null ? 20 : height! / 6,
-                            child: Container(
-                              width: 65,
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(12),
-                                  bottomRight: Radius.circular(12),
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "￥12.0",
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      //标题
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        width: width,
-                        child: Text(
-                          maxLines: 1,
-                          books[index].title??"",
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        width: width,
-                        child: Text(
-                          maxLines: 1,
-                          books[index].authorName??"",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                if(books==null){
+                  return  MyBookTileItemSkeleton(width: width,height: height,);
+                }
+                return MyBookTileItem(book: books![index],
+                width: width,
+                height: height,
+                showPrice: showPrice,
+                showRate: showRate,);
+              }),
             ),
           ),
-        )
       ],
+    );
+  }
+
+  Widget _getPriceUI(BuildContext context) {
+    if (showPrice == false) {
+      return const SizedBox();
+    }
+    return Positioned(
+      bottom: height == null ? 20 : height! / 6,
+      child: Container(
+        width: 65,
+        height: 25,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            "￥12.0",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

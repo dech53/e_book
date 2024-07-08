@@ -28,19 +28,18 @@ class _MyBookActivityLabelsState extends State<MyBookActivityLabels> {
           Wrap(
             children: List.generate(widget.labels.length, (index) {
               return Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 10,bottom: 8),
                 child: ChoiceChip(
                   label: Text(widget.labels[index]),
                   selected: _value == index,
                   onSelected: (value) {
+                    if(_value == index) return;
                     setState(
                       () {
                         _value = index;
                       },
                     );
-                    if(_value !=index){
-                      widget.itemTap?.call(index);
-                    }
+                    widget.itemTap?.call(index);
                   },
                 ),
               );

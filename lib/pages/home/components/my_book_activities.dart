@@ -72,7 +72,7 @@ class MyBookActivities extends StatelessWidget {
                         ),
                         //专题、时间
                         const SizedBox(
-                          height: 30,
+                          height: 19,
                         ),
                         Row(
                           children: [

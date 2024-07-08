@@ -5,5 +5,6 @@ class Book {
   double? rate;
   double? price;
   String? id;
-  Book({this.id,this.cover, this.title, this.authorName, this.rate, this.price});
+  String? subTitle;
+  Book({this.id,this.cover, this.title, this.authorName, this.rate, this.price,this.subTitle});
 }

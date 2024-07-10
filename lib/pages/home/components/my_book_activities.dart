@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_book/utils/header_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
@@ -35,10 +36,7 @@ class MyBookActivities extends StatelessWidget {
                       image: DecorationImage(
                           image: CachedNetworkImageProvider(
                             activities[index].cover??"",
-                            headers: const {
-                              'User-Agent':
-                                  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0',
-                            },
+                            headers: HeaderUtil.randomHeader(),
                           ),
                           fit: BoxFit.cover),
                     ),

@@ -15,7 +15,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  int _index = 1;
+  int _index = 0;
 
   List rootApp = [
     {"icon": LineIcons.home, "title": "首页"},
